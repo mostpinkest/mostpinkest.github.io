@@ -4,13 +4,15 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-const cacheVersion = "8";
+const cacheVersion = "9";
 const cacheId = `SW Cache - v${cacheVersion}`;
 
 /** @type {string[]} */
 const files = [
   "./",
+
   "./manifest.webmanifest",
+
   "./img/pp%20icon%20-%2016x16.png",
   "./img/pp%20icon%20-%2032x32.png",
   "./img/pp%20icon%20-%2048x48.png",
@@ -30,9 +32,12 @@ const files = [
   "./img/pp%20icon%20masked%20-%20256x256.png",
   "./img/pp%20icon%20masked%20-%20512x512.png",
   "./img/pp%20icon%20masked%20-%201024x1024.png",
+
   "./fonts/Font%20Awesome/fa-solid-900.woff2",
   "./fonts/Sono/sono-200.woff2",
   "./fonts/Sono/sono-400.woff2",
+
+  "./icons/pantone.json",
 ];
 
 const fileURLs = new Set(
@@ -57,7 +62,6 @@ if (typeof window === "undefined") {
 function formatURL(url) {
   url = normaliseURL(url)
   url.hash = "";
-  url.searchParams.set("__WB_REVISION__", cacheVersion);
   return url;
 }
 

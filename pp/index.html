@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta content="width=360, initial-scale=1.0, viewport-fit=cover" name="viewport">
 
+    <!-- MARK: Preload
+    -->
+
     <!-- Fonts -->
     <!-- Sono -->
     <!-- Used under OFT licence (https://github.com/sursly/Sono/blob/7dc859025b464e8530d90116782b5407b7b6376d/OFL.txt)  -->
@@ -15,9 +18,14 @@
 
     <!-- Font Awesome 6.7.2 -->
     <!-- Used under licence: http://logicer.cc/pp/fonts/Font%20Awesome/LICENSE.txt -->
-    <link as="font" href="./fonts/Font%20Awesome/fa-solid-900.woff2" rel="preload" type="font/woff2" crossorigin="anonymous">
+    <link as="font" href="./fonts/Font%20Awesome/fa-solid-900.woff2" rel="preload" type="font/woff2"
+      crossorigin="anonymous">
 
-    <!-- Metadata -->
+    <!-- Icons -->
+    <link as="fetch" href="./icons/pantone.json" rel="preload" type="application/json" crossorigin="anonymous">
+
+    <!-- MARK: Metadata
+    -->
     <title>Logicer's PP</title>
     <meta name="description" content="Choose the nicest shade of pink for the new icon design">
     <meta name="googlebot" content="notranslate">
@@ -36,7 +44,8 @@
     <meta property="og:image:alt"
       content="Logicer's icon with a transparent fill atop a subtle, diagonal gradient of different shades of pink" />
 
-    <!-- Icon -->
+    <!-- MARK: Icon
+    -->
     <link href="./img/pp%20icon%20-%2016x16.png" rel="icon" type="image/png" sizes="16x16">
     <link href="./img/pp%20icon%20-%2032x32.png" rel="icon" type="image/png" sizes="32x32">
     <link href="./img/pp%20icon%20-%2048x48.png" rel="icon" type="image/png" sizes="48x48">
@@ -53,7 +62,8 @@
     <link href="./img/pp%20icon%20-%201024x1024.png" rel="icon" type="image/png" sizes="1024x1024">
     <link href="./img/pp%20icon%20-%201024x1024.png" rel="apple-touch-icon">
 
-    <!-- PWA -->
+    <!-- MARK: PWA
+    -->
     <link rel="manifest" href="./manifest.webmanifest">
     <meta name="theme-color" content="#f0f0f0" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="canvas" media="(prefers-color-scheme: dark)">
@@ -93,6 +103,48 @@
         outline-offset: 0;
       }
 
+      #superSecretUndoRedoStateBoxBecauseBrowsersDontMakeMyJobEasy {
+        opacity: 0;
+        position: fixed;
+        top: -1000px;
+        pointer-events: none;
+        visibility: hidden;
+
+        &.unhide {
+          visibility: initial;
+        }
+      }
+
+      svg.definition {
+        display: none;
+      }
+
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        text-decoration: none;
+        color: LinkText;
+        color: -webkit-link;
+        color: AccentColor;
+      }
+
+      a:hover {
+        color: color-mix(in srgb, LinkText 90%, transparent);
+        color: color-mix(in srgb, -webkit-link 90%, transparent);
+        color: color-mix(in srgb, AccentColor 90%, transparent);
+      }
+
+      a:active {
+        color: color-mix(in srgb, LinkText 80%, transparent);
+        color: color-mix(in srgb, -webkit-link 80%, transparent);
+        color: color-mix(in srgb, AccentColor 80%, transparent);
+      }
+    </style>
+
+    <!-- MARK: Font Styles
+    -->
+    <style>
       /* From Google Fonts API */
       @font-face {
         font-family: "Sono";
@@ -131,6 +183,13 @@
         font-optical-sizing: auto;
         font-style: normal;
         font-variation-settings: "MONO" 0;
+
+        transition: color 0.1s linear;
+
+        body:not(.fontSonoLoaded) &,
+        body:not(.fontSonoLoaded) &::placeholder {
+          color: transparent !important;
+        }
       }
 
       .fontSonoMono {
@@ -138,6 +197,16 @@
         font-optical-sizing: auto;
         font-style: normal;
         font-variation-settings: "MONO" 1;
+
+        transition: color 0.1s linear;
+
+        .revealer:not(.resizing)>.revealing {
+          transition: width 0.5s ease;
+        }
+
+        body:not(.fontSonoMonoLoaded) & {
+          color: transparent !important;
+        }
       }
 
       .fontExtraLight {
@@ -170,58 +239,16 @@
             cursor: revert;
           }
         }
-      }
 
-      h1,
-      h2,
-      p,
-      .fa-solid {
-        opacity: 0;
-        transition: opacity 0.1s linear;
-
-        &.loaded {
-          opacity: 1;
-
-          .revealer:not(.resizing)>.revealing {
-            transition: width 0.5s ease;
-          }
-        }
-      }
-
-      .hideFontInChildren {
-        color: transparent;
-        transition: color 0.1s linear;
-
-        &::before,
-        * {
-          opacity: 0;
-          transition: opacity 0.1s linear;
+        &,
+        &::before {
+          transition: color 0.1s linear;
         }
 
-        &.loaded {
-          color: revert;
-
-          *,
-          &::before {
-            opacity: 1;
-          }
+        body:not(.fontAwesomeLoaded) &,
+        body:not(.fontAwesomeLoaded) &::before {
+          color: transparent !important;
         }
-      }
-
-      #superSecretUndoRedoStateBoxBecauseBrowsersDontMakeMyJobEasy {
-        opacity: 0;
-        position: fixed;
-        top: -1000px;
-        pointer-events: none;
-        visibility: hidden;
-
-        &.unhide {
-          visibility: initial;
-        }
-      }
-
-      svg.definition {
-        display: none;
       }
     </style>
 
@@ -229,23 +256,14 @@
     -->
     <noscript>
       <style>
-        h1,
-        h2,
-        p,
-        .fa-solid {
-          opacity: 1;
+        .fontSono,
+        .fontSonoMono,
+        .fontAwesome {
 
-          .revealer:not(.resizing)>.revealing {
-            transition: width 0.5s ease;
-          }
-        }
-
-        .hideFontInChildren {
-          color: revert;
-
-          *,
-          &::before {
-            opacity: 1;
+          body:not(.fontSonoLoaded) &,
+          body:not(.fontSonoMonoLoaded) &,
+          body:not(.fontAwesomeLoaded) & {
+            color: revert !important;
           }
         }
 
@@ -297,7 +315,7 @@
     </style>
 
     <!-- MARK: Control Styles
-     -->
+    -->
     <style>
       :root {
         --buttonBorderRadiusFraction: 0.3;
@@ -342,18 +360,29 @@
           gap: var(--gap);
 
           #showHide {
-            &+label::before {
+            &+label i {
               /* Set the font and weight for this icon style */
               font: var(--fa-font-solid);
               /* Make sure icons render pixel-perfect */
               -webkit-font-smoothing: antialiased;
-              /* eye-slash */
-              content: "\f070";
+
+              &#showHideShow {
+                display: none;
+              }
+
+              &#showHideHide {
+                display: default;
+              }
             }
 
-            &:checked+label::before {
-              /* eye */
-              content: "\f06e";
+            &:checked+label i {
+              &#showHideShow {
+                display: revert;
+              }
+
+              &#showHideHide {
+                display: none;
+              }
             }
           }
 
@@ -447,12 +476,30 @@
         opacity: 0;
       }
 
+      @keyframes fadeInOpacity {
+
+        0%,
+        25% {
+          opacity: 0;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
       .largeNotice {
         display: flex;
         flex-direction: column;
         margin-top: 12vh;
         align-items: center;
         text-align: center;
+
+        animation-name: fadeInOpacity;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
+        animation-duration: 3s;
+        opacity: 1;
 
         :has(#showHide:checked, #iconGrid input[type="checkbox"]:checked) & {
           display: none;
@@ -612,14 +659,25 @@
       /** @type {boolean} */
       const colourNamesDisabled = false;
 
+      // Global Status
+      /** @type {boolean} */
+      let iconsHaveLoaded = false;
+      /** @type {number} */
+      let iconCount = 0;
+
       /** @type {Promise<unknown>[]} */
       const promises = [];
 
-      /** @type {({colour: string, index: number, name?: string} | undefined)[]} */
-      const icons = [
-        { colour: "#ffc0cb", index: 1 },
-        { colour: "#f5a9b8", index: 2, name: "Trans" },
-        { colour: "magenta", index: 3 },
+      /** @typedef {{colour: string, index: number, name?: string}} Icon */
+      /** @typedef {(Icon | null)[]} Icons */
+      /** @type {Icons} */
+      const inlinedIcons = [
+        // Special
+        null,
+        { colour: "#f5a9b8", index: 2, name: "Helms flag" },
+
+        // CSS named
+        { colour: "magenta", index: 3, name: "CSS magenta, ANSI 13, light_magenta, ANSI 201, fuchsia, magenta" },
         { colour: "deeppink", index: 4 },
         { colour: "hotpink", index: 5 },
         { colour: "lightpink", index: 6 },
@@ -628,166 +686,76 @@
         { colour: "palevioletred", index: 9 },
         { colour: "plum", index: 10 },
         { colour: "violet", index: 11 },
-        { colour: "#f5b6cd", index: 12, name: "Pantone 1895 C" },
-        { colour: "#f5b1cc", index: 13, name: "Pantone 203 U" },
-        { colour: "#f4b4c4", index: 14, name: "Pantone 14-1911 TPX Candy Pink" },
-        { colour: "#f5bdc8", index: 15, name: "Pantone 13-2006 TPG Almond Blossom" },
-        { colour: "#f5bec7", index: 16, name: "Pantone 13-2006 TCX Almond Blossom" },
-        { colour: "#f8aadd", index: 17, name: "Pantone Magenta 0521 U" },
-        { colour: "#ffa9d6", index: 18, name: "Pantone 13-2120 TN Cotton Candy" },
-        { colour: "#f1b2dc", index: 19, name: "Pantone Magenta 0521 C" },
-        { colour: "#ffc0c8", index: 20, name: "Pantone 919 C" },
-        { colour: "#ffbac9", index: 21, name: "Pantone 1767 U" },
-        { colour: "#ffc7ce", index: 22, name: "Pantone 919 U" },
-        { colour: "#ffb1bb", index: 23, name: "Pantone 176 C" },
-        // Pantone 12-1708 TCX
-        // Pantone 13-1906 TCX
-        // Pantone 13-1513 TCX
-        // Pantone 12-1808 TCX
-        // Pantone 13-1520 TCX
-        // Pantone 13-2010 TCX
-        // Pantone 13-2005 TCX
-        // Pantone 13-2016 TCX
-        // Pantone 13-2705 TCX
-        // Pantone 13-2009 TCX
-        // Pantone 16-2125 TN
-        // Pantone 16-2130 TN
-        // Pantone 12-1708 TPG
-        // Pantone 13-1906 TPG
-        // Pantone 14-1910 TPG
-        // Pantone 13-1513 TPG
-        // Pantone 13-2005 TPG
-        // Pantone 13-2003 TPG
-        // Pantone 13-1409 TPG
-        // Pantone 13-2016 TPG
-        // Pantone 13-2009 TPG
-        // Pantone 13-2705 TPG
-        // Pantone 13-2820 TSX
-        // Pantone 14-2116 TSX
 
-        // Pantone P 71-2 C
-        // Pantone P 65-2 C
-        // Pantone P 73-2 C
-        // Pantone P 62-1 C
-        // Pantone P 68-1 C
-        // Pantone P 75-4 C
-        // Pantone P 73-9 C
-        // Pantone P 71-2 U
-        // Pantone P 73-2 U
-        // Pantone P 65-2 U
-        // Pantone P 75-3 U
-        // Pantone P 73-1 U
-        // Pantone P 73-9 U
-        // Pantone 496 CP
-        // Pantone 217 CP
-        // Pantone 495 CP
-        // Pantone 2043 CP
-        // Pantone 510 CP
-        // Pantone 196 CP
-        // Pantone 2043 UP
-        // Pantone 3568 UP
-        // Pantone 517 UP
-        // Pantone 7429 UP
-        // Pantone 671 UP
-        // Pantone 4078 UP
-        // Pantone 2365 UP
-        // Pantone 182 C
-        // Pantone 699 C
-        // Pantone 2036 C
-        // Pantone 1895 C
-        // Pantone 495 C
-        // Pantone 707 C
-        // Pantone 496 C
-        // Pantone 3595 C
-        // Pantone 699 U
-        // Pantone 1767 U
-        // Pantone 496 U
-        // Pantone 182 U
-        // Pantone 196 U
-        // Pantone 1895 U
-        // Pantone 706 U
-        // Pantone 919 C
-        // Pantone 9284 C
-        // Pantone 940 C
-        // Pantone Red 0331 C
-        // Pantone 9282 U
-        // Pantone 9302 U
-        // Pantone 182 C
-        // Pantone 699 C
-        // Pantone 2036 C
-        // Pantone 1895 C
-        // Pantone 495 C
-        // Pantone 707 C
-        // Pantone 496 C
-        // Pantone 3595 C
-        // Pantone 699 U
-        // Pantone 1767 U
-        // Pantone 496 U
-        // Pantone 182 U
-        // Pantone 196 U
-        // Pantone 510 U
-        // Pantone 706 U
+        // Post-it
+        { colour: "#f2d4e0", index: 12, name: "Post-it Pink Salt" },
+        { colour: "#ffbbd4", index: 13, name: "Post-it Positively Pink" },
+        { colour: "#faa6eb", index: 14, name: "Post-it Tropical Pink" },
 
-        { colour: "#ffafaf", name: "ANSI 217, melon, pale_red_pink_tone, sundown" },
-        {
-          colour: "#ff00ff",
-          name: "ANSI 13, light_magenta, ANSI 201, fuchsia, magenta"
-        },
-        { colour: "#d70087", name: "ANSI 162, mexican_pink, strong_pink" },
-        { colour: "#d700af", name: "ANSI 163, hollywood_cerise" },
-        { colour: "#d75faf", name: "ANSI 169, hopbush, moderate_pink, super_pink" },
-        { colour: "#d75fff", name: "ANSI 171, heliotrope, light_magenta" },
+        // OneNote
+        { colour: "#ff99cd", index: 15, name: "OneNote Pen" },
+        { colour: "#ffadd5", index: 16, name: "OneNote Highlighter" },
+
+        // ANSI
+        { colour: "#ffafaf", index: 17, name: "ANSI 217, melon, pale_red_pink_tone, sundown" },
+        null,
+        { colour: "#d70087", index: 19, name: "ANSI 162, mexican_pink, strong_pink" },
+        { colour: "#d700af", index: 20, name: "ANSI 163, hollywood_cerise" },
+        { colour: "#d75faf", index: 21, name: "ANSI 169, hopbush, moderate_pink, super_pink" },
+        { colour: "#d75fff", index: 22, name: "ANSI 171, heliotrope, light_magenta" },
         {
           colour: "#d787af",
+          index: 23,
           name: "ANSI 175, can_can, middle_purple, slightly_desaturated_pink"
         },
         {
           colour: "#d787d7",
+          index: 24,
           name: "ANSI 176, deep_mauve, light_orchid, slightly_desaturated_magenta"
         },
-        { colour: "#d787ff", name: "ANSI 177, bright_lilac, very_light_violet" },
+        { colour: "#d787ff", index: 25, name: "ANSI 177, bright_lilac, very_light_violet" },
         {
           colour: "#d7afd7",
+          index: 26,
           name: "ANSI 182, grayish_magenta, pink_lavender, thistle"
         },
-        { colour: "#ff0087", name: "ANSI 198, bright_pink, rose" },
+        { colour: "#ff0087", index: 27, name: "ANSI 198, bright_pink, rose" },
         {
           colour: "#ff00af",
+          index: 28,
           name: "ANSI 199, fashion_fuchsia, hollywood_cerise, pure_pink"
         },
-        { colour: "#ff00d7", name: "ANSI 200, pure_magenta" },
-        { colour: "#ff5faf", name: "ANSI 205, hot_pink, light_pink" },
-        { colour: "#ff5fd7", name: "ANSI 206, light_deep_pink, purple_pizzazz" },
-        { colour: "#ff5fff", name: "ANSI 207, pink_flamingo, shocking_pink" },
-        { colour: "#ff87af", name: "ANSI 211, pink_salmon, tickle_me_pink" },
+        { colour: "#ff00d7", index: 29, name: "ANSI 200, pure_magenta" },
+        { colour: "#ff5faf", index: 30, name: "ANSI 205, hot_pink, light_pink" },
+        { colour: "#ff5fd7", index: 31, name: "ANSI 206, light_deep_pink, purple_pizzazz" },
+        { colour: "#ff5fff", index: 32, name: "ANSI 207, pink_flamingo, shocking_pink" },
+        { colour: "#ff87af", index: 33, name: "ANSI 211, pink_salmon, tickle_me_pink" },
         {
           colour: "#ff87d7",
+          index: 34,
           name: "ANSI 212, lavender_rose, princess_perfume, very_light_pink"
         },
         {
           colour: "#ff87ff",
+          index: 35,
           name: "ANSI 213, blush_pink, fuchsia_pink, very_light_magenta"
         },
-        { colour: "#ffafd7", name: "ANSI 218, cotton_candy, lavender_pink, pale_pink" },
+        { colour: "#ffafd7", index: 36, name: "ANSI 218, cotton_candy, lavender_pink, pale_pink" },
         {
           colour: "#ffafff",
+          index: 37,
           name: "ANSI 219, pale_magenta, rich_brilliant_lavender, shampoo"
         },
         {
           colour: "#ffd7d7",
+          index: 38,
           name: "ANSI 224, cosmos, misty_rose, very_pale_red_pink_tone"
         },
         {
           colour: "#ffd7ff",
+          index: 39,
           name: "ANSI 225, bubble_gum, pink_lace, very_pale_magenta"
         },
-
-        // "f2d4e0 Post-it Pink Salt"
-        // "ffbbd4 Post-it Positively Pink"
-        // faa6eb Post-it Tropical Pink
-
-        // ff99cd OneNote Pen
-        // ffadd5 OneNote Highlighter
 
         // Jelly Belly
         // iPhone 15 pink
@@ -841,15 +809,23 @@
 
     <form method="dialog" id="controls" class="scripted">
       <!-- eslint-disable @html-eslint/use-baseline -->
-      <input id="shareCode" type="text" class="fontSono hideFontInChildren" aria-label="Share Code" autocapitalize="off"
-        autocomplete="off" placeholder="Share Code" size="20" spellcheck="false" tabindex="0"
-        title="View someone else's choices">
+      <input id="shareCode" type="text" class="fontSono" aria-label="Share Code" autocapitalize="off" autocomplete="off"
+        placeholder="Share Code" size="20" spellcheck="false" tabindex="0" title="View someone else's choices">
       <!-- eslint-enable @html-eslint/use-baseline -->
 
       <div id="controlButtons">
         <input id="showHide" type="checkbox" class="hidden" aria-hidden="true" tabindex="0">
-        <label class="button fontAwesome hideFontInChildren" aria-label="Show / Hide" for="showHide" role="button"
-          tabindex="-1" title="Show hidden colours"></label>
+        <label class="button fontAwesome" aria-label="Show / Hide" for="showHide" role="button" tabindex="-1"
+          title="Show hidden colours">
+          <i id="showHideShow" class="fa-solid fontAwesome" aria-hidden="true">
+            <!-- eye -->
+            &#xf06e
+          </i>
+          <i id="showHideHide" class="fa-solid fontAwesome" aria-hidden="true">
+            <!-- eye-slash -->
+            &#xf070
+          </i>
+        </label>
 
         <button id="shareButton" type="button" tabindex="0"><i class="fa-solid fontAwesome" aria-label="Share"
             hidden></i></button>
@@ -878,8 +854,8 @@
         &#xe4ef
       </i>
       <h2 class="fontSono">No colours selected</h2>
-      <label class="button fontSono hideFontInChildren" for="showHide" role="button"><span>Show Hidden
-          Colours</span></label>
+      <label class="fontSono button" for="showHide" role="button">Show Hidden
+        Colours</label>
     </div>
     <noscript>
       <div id="noScript" class="largeNotice">
@@ -909,6 +885,41 @@
         showHide.addEventListener("input", () => {
           localStorage.setItem("showHide", showHide.checked.toString());
         });
+      }
+    </script>
+
+    <!-- MARK: Scroll Restoration
+    -->
+    <script>
+      /**
+       * Store the current scroll offset in local storage.
+       */
+      function storeScroll() {
+        localStorage.setItem("scrollY", window.pageYOffset.toString());
+      }
+
+      document.addEventListener("scroll", () => {
+        storeScroll()
+      })
+
+      document.addEventListener("scrollend", () => {
+        storeScroll()
+      })
+
+      let loadOffset = performance.now();
+
+      /**
+       * On page load, restore the most recently stored scroll offset.
+       * If not called within 500ms of page load, no scrolling will occur.
+       */
+      function restoreScroll() {
+        const loadTime = performance.now() - loadOffset;
+        console.info(`Ready to Restore Scroll after ${loadTime.toFixed(1)} ms`);
+        console.timeStamp("Ready to Restore Scroll");
+        if (loadTime < 500) {
+          const scrollY = localStorage.getItem("scrollY");
+          if (scrollY !== null) window.scrollTo({ top: scrollY });
+        }
       }
     </script>
 
@@ -967,9 +978,9 @@
 
           let sanitisedOldMask = oldMask;
 
-          if (sanitisedOldMask === this.#mask) {
+          if (sanitisedOldMask === this.#mask && iconsHaveLoaded) {
             // Simulate toggling all
-            sanitisedOldMask = this.#mask ^ BigInt.asUintN(icons.length, ~0n);
+            sanitisedOldMask = this.#mask ^ BigInt.asUintN(iconCount, ~0n);
           }
 
           let delta = this.#mask ^ sanitisedOldMask;
@@ -1010,7 +1021,9 @@
 
         set mask(rawNewMask) {
           // Trim extraneous bits
-          const newMask = BigInt.asUintN(icons.length, rawNewMask);
+          let newMask = rawNewMask
+
+          if (iconsHaveLoaded) newMask = BigInt.asUintN(iconCount, rawNewMask);
 
           if (this.#mask === newMask) return;
 
@@ -1274,93 +1287,135 @@
         return colourTestCanvasContext.fillStyle;
       }
 
+      /**
+       * Parse the JSON content resulting from a fetch request.
+       *
+       * @param {RequestInfo | URL} The network request to perform.
+       * @returns {Promise<unknown>} The JavaScript object produced from the JSON.
+       */
+      async function fetchJSON(request) {
+        return (await fetch(request)).json();
+      }
+
+      /**
+       * Gather and generate the icon data objects.
+       *
+       * @yields {[number, Icon]} [index, icons] pairs, in order.
+       * @returns {AsyncGenerator<[number, Icon], void, unknown>} An async generator which will produce [index, icons] pairs in order.
+       */
+      async function* icons() {
+        /** @type {(Icons | Promise<Icons>)[]} */
+        const iconArrays = [
+          inlinedIcons,
+          fetchJSON("./icons/pantone.json")
+        ];
+
+        for (const iconsAsync of iconArrays) {
+          let iconArray = await iconsAsync;
+
+          if (!Array.isArray(iconArray)) iconArray = iconArray.default;
+
+          if (!Array.isArray(iconArray)) {
+            console.error("Received iconArray which was not an array.");
+            continue;
+          }
+
+          for (const icon of iconArray) {
+            if (typeof icon === 'object' && !Array.isArray(icon) && icon !== null) yield [iconCount, icon];
+            iconCount++;
+          }
+        }
+      }
+
       /** @type {{[key: string]: number}} */
       const completedColours = {};
       let hasDisplayedIconWarningGroup = false;
 
-      const iconCandidates = icons.map((icon, index) => {
-        if (icon === undefined) return;
+      Promise.resolve()
+        .then(async () => {
+          for await (const [index, icon] of icons()) {
+            if (icon.index !== index + 1) {
+              if (!hasDisplayedIconWarningGroup) {
+                console.groupCollapsed("Icon Data Issues");
+                hasDisplayedIconWarningGroup = true;
+              }
+              console.warn(
+                `Icon candidate ${icon.name === undefined ? "" : `"${icon.name}" `}(colour: ${icon.colour}) has an index mismatch and won't be displayed. Expected ${index + 1}; found ${icon.index}.`
+              );
+              continue;
+            }
 
-        if (icon.index !== index + 1) {
-          if (!hasDisplayedIconWarningGroup) {
-            console.groupCollapsed("Icon Data Issues");
-            hasDisplayedIconWarningGroup = true;
+            const standardisedColour = standardiseColour(icon.colour);
+            if (Object.hasOwn(completedColours, standardisedColour)) {
+              if (!hasDisplayedIconWarningGroup) {
+                console.groupCollapsed("Icon Data Issues");
+                hasDisplayedIconWarningGroup = true;
+              }
+              console.warn(
+                `Icon candidate ${icon.name === undefined ? "" : `"${icon.name}" `}#${icon.index} (colour: ${icon.colour}) has a duplicated colour and won't be displayed. This colour was first used with icon #${completedColours[standardisedColour]}.`
+              );
+              continue;
+            }
+            completedColours[standardisedColour] = icon.index;
+
+            const candidate = document.createElement("div");
+
+            /** @type {SVGElement} */
+            const iconElement = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "svg"
+            );
+            iconElement.setAttribute("viewBox", "0 0 256 256");
+
+            /** @type {SVGUseElement} */
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "use");
+            path.setAttribute("href", "#icon");
+            path.style.fill = icon.colour;
+            iconElement.append(path);
+
+            const itemControls = document.createElement("div");
+            itemControls.classList.add("itemControls");
+
+            const indexLabel = document.createElement("p");
+            indexLabel.classList.add("fontSono");
+            if (!colourNamesDisabled) {
+              indexLabel.title = icon.name ?? `CSS colour only: ${icon.colour}`;
+            }
+            indexLabel.textContent = icon.index.toString();
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = `icon-${icon.index}`;
+            checkbox.checked = mask.getColourSelection(icon.index);
+            checkbox.classList.add("hidden");
+            checkbox.ariaHidden = "true";
+            checkbox.tabIndex = -1;
+            checkbox.addEventListener("change", () => {
+              mask.setColourSelection(icon.index, !checkbox.checked);
+            });
+            mask.addEventListener(`selectionChanged-${icon.index}`, () => {
+              checkbox.checked = mask.getColourSelection(icon.index);
+            });
+
+            const checkboxButton = document.createElement("label");
+            checkboxButton.htmlFor = checkbox.id;
+            checkboxButton.classList.add("button", "fontAwesome");
+            checkboxButton.role = "button";
+            checkboxButton.tabIndex = 0;
+            checkboxButton.ariaLabel = `toggle icon ${icon.index}`;
+
+            itemControls.append(indexLabel, checkbox, checkboxButton);
+            candidate.append(iconElement, itemControls);
+
+            iconGrid.append(candidate);
           }
-          console.warn(
-            `Icon candidate ${icon.name === undefined ? "" : `"${icon.name}" `}(colour: ${icon.colour}) has an index mismatch and won't be displayed. Expected ${index + 1}; found ${icon.index}.`
-          );
-          return;
-        }
 
-        const standardisedColour = standardiseColour(icon.colour);
-        if (Object.hasOwn(completedColours, standardisedColour)) {
-          if (!hasDisplayedIconWarningGroup) {
-            console.groupCollapsed("Icon Data Issues");
-            hasDisplayedIconWarningGroup = true;
-          }
-          console.warn(
-            `Icon candidate ${icon.name === undefined ? "" : `"${icon.name}" `}#${icon.index} (colour: ${icon.colour}) has a duplicated colour and won't be displayed. This colour was first used with icon #${completedColours[standardisedColour]}.`
-          );
-          return;
-        }
-        completedColours[standardisedColour] = icon.index;
+          if (hasDisplayedIconWarningGroup) console.groupEnd();
+          iconsHaveLoaded = true;
+          restoreScroll();
+          mask.mask = mask.mask;
+        })
 
-        const candidate = document.createElement("div");
-
-        /** @type {SVGElement} */
-        const iconElement = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "svg"
-        );
-        iconElement.setAttribute("viewBox", "0 0 256 256");
-
-        /** @type {SVGUseElement} */
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "use");
-        path.setAttribute("href", "#icon");
-        path.style.fill = icon.colour;
-        iconElement.append(path);
-
-        const itemControls = document.createElement("div");
-        itemControls.classList.add("itemControls");
-
-        const indexLabel = document.createElement("p");
-        indexLabel.classList.add("fontSono");
-        if (!colourNamesDisabled) {
-          indexLabel.title = icon.name ?? `CSS colour only: ${icon.colour}`;
-        }
-        indexLabel.textContent = icon.index.toString();
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `icon-${icon.index}`;
-        checkbox.checked = mask.getColourSelection(icon.index);
-        checkbox.classList.add("hidden");
-        checkbox.ariaHidden = "true";
-        checkbox.tabIndex = -1;
-        checkbox.addEventListener("change", () => {
-          mask.setColourSelection(icon.index, !checkbox.checked);
-        });
-        mask.addEventListener(`selectionChanged-${icon.index}`, () => {
-          checkbox.checked = mask.getColourSelection(icon.index);
-        });
-
-        const checkboxButton = document.createElement("label");
-        checkboxButton.htmlFor = checkbox.id;
-        checkboxButton.classList.add("button", "hideFontInChildren", "fontAwesome");
-        checkboxButton.role = "button";
-        checkboxButton.tabIndex = 0;
-        checkboxButton.ariaLabel = `toggle icon ${icon.index}`;
-
-        itemControls.append(indexLabel, checkbox, checkboxButton);
-        candidate.append(iconElement, itemControls);
-        return candidate;
-      }).filter((iconCandidate) => {
-        return iconCandidate !== undefined;
-      });
-
-      iconGrid.append(...iconCandidates);
-
-      if (hasDisplayedIconWarningGroup) console.groupEnd();
     </script>
 
     <!-- MARK: Main Scripts:
@@ -1377,33 +1432,20 @@
         });
       }
 
-      /**
-       * Called once all fonts have loaded.
-       *
-       * @param {string} selector A css style selector for element now ready to display.
-       */
-      function fontsHaveLoaded(selector) {
-        for (const element of document.querySelectorAll(selector)) {
-          setTimeout(() => {
-            element.classList.add("loaded");
-          }, 0);
-        }
-      }
-
       /* eslint-disable unicorn/prefer-top-level-await */
       promises.push(
         document.fonts.load("200 1rem Sono").then(() => {
-          fontsHaveLoaded(".fontSonoMono");
+          document.body.classList.add("fontSonoMonoLoaded");
         }),
         document.fonts.load("400 1rem Sono").then(() => {
-          fontsHaveLoaded(".fontSono");
+          document.body.classList.add("fontSonoLoaded");
         }),
         document.fonts
           .load(
             window.getComputedStyle(document.body).getPropertyValue("--fa-font-solid")
           )
           .then(() => {
-            fontsHaveLoaded(".fontAwesome");
+            document.body.classList.add("fontAwesomeLoaded");
           })
       );
       /* eslint-enable unicorn/prefer-top-level-await */

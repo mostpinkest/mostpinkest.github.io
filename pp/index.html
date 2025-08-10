@@ -914,7 +914,7 @@
        */
       function restoreScroll() {
         const loadTime = performance.now() - loadOffset;
-        console.info(`Ready to Restore Scroll after ${loadTime.toFixed(1)} ms`);
+        console.debug(`Ready to Restore Scroll after ${loadTime.toFixed(1)} ms`);
         console.timeStamp("Ready to Restore Scroll");
         if (loadTime < 500) {
           const scrollY = localStorage.getItem("scrollY");

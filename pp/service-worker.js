@@ -106,7 +106,7 @@ async function pruneCache() {
 
   for (const cacheName of await caches.keys()) {
     if (cacheName !== cacheId) {
-      console.log(`Deleting outdated cache: ${cacheName}`);
+      console.debug(`Deleting outdated cache: ${cacheName}`);
       promises.push(caches.delete(cacheName));
     }
   }
@@ -171,7 +171,7 @@ function registerServiceWorker() {
     navigator.serviceWorker
       .register("./service-worker.js")
       .then((registration) => {
-        console.log("Service worker registered");
+        console.debug("Service worker registered");
         if (registration.active) return registration.update();
       })
       .catch((/** @type {unknown} */ error) => {

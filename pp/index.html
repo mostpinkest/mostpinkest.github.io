@@ -87,7 +87,9 @@
 
         scrollbar-gutter: stable both-edges;
 
-        --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free"
+        --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+
+        --squircle-radius-factor: 2;
       }
 
       body {
@@ -388,10 +390,17 @@
 
           .button,
           button {
+            --borderRadius: calc(var(--buttonBorderRadius) * 1.5);
+
             height: var(--height);
             width: var(--height);
             font-size: 1rem;
-            border-radius: calc(var(--buttonBorderRadius) * 1.5);
+            border-radius: var(--borderRadius);
+
+            @supports (corner-shape: squircle) {
+              border-radius: calc(var(--borderRadius) * var(--squircle-radius-factor));
+              corner-shape: squircle;
+            }
 
             &>*,
             &::before {
@@ -405,14 +414,20 @@
           --border: 2px;
           --nonWidthWidth: calc((2 * var(--border)) + (2 * var(--padding)));
           --buttonControlsWidth: calc((var(--height) * var(--buttonCount)) + (var(--gap) * (var(--buttonCount) - 1)));
+          --borderRadius: calc(var(--height) * var(--buttonBorderRadiusFraction));
 
           min-width: calc(var(--buttonControlsWidth) - var(--nonWidthWidth));
           height: calc(var(--height) - var(--nonWidthWidth));
           padding: var(--padding);
           border-width: var(--border);
 
-          border-radius: calc(var(--height) * var(--buttonBorderRadiusFraction));
+          border-radius: var(--borderRadius);
           border-style: solid;
+
+          @supports (corner-shape: squircle) {
+            border-radius: calc(var(--borderRadius) * var(--squircle-radius-factor));
+            corner-shape: squircle;
+          }
 
           font-size: 100%;
 
@@ -427,6 +442,11 @@
         text-align: center;
         padding-top: 0;
         padding-bottom: 0;
+
+        @supports (corner-shape: squircle) {
+          border-radius: calc(var(--buttonBorderRadius) * var(--squircle-radius-factor));
+          corner-shape: squircle;
+        }
 
         color: canvastext;
 
@@ -454,7 +474,7 @@
           vertical-align: bottom;
         }
 
-        background-color: light-dark(#b0b0b0, #505050);
+        background-color: light-dark(#d0d0d0, #505050);
 
         @media (prefers-color-scheme: light) {
           &:disabled {
@@ -522,12 +542,19 @@
         }
 
         label {
+          --borderRadius: 0.5rem;
+
           padding-top: 0.5rem;
           padding-bottom: 0.5rem;
 
           width: 12rem;
 
-          border-radius: 0.5rem;
+          border-radius: var(--borderRadius);
+
+          @supports (corner-shape: squircle) {
+            border-radius: calc(var(--borderRadius) * var(--squircle-radius-factor));
+            corner-shape: squircle;
+          }
         }
       }
     </style>
@@ -560,13 +587,18 @@
         grid-template-columns: repeat(var(--repeat), var(--itemWidth));
 
         &>* {
+          --borderRadius: calc(var(--itemWidth) / 16);
+
           background-color: white;
           aspect-ratio: 1;
           width: var(--itemWidth);
 
-          border-radius: calc(var(--itemWidth) / 16);
-          border-width: var(--borderWidth);
-          border-style: solid;
+          border-radius: var(--borderRadius);
+
+          @supports (corner-shape: squircle) {
+            border-radius: calc(var(--borderRadius) * var(--squircle-radius-factor));
+            corner-shape: squircle;
+          }
 
           input[type="checkbox"] {
             &+label::before {
